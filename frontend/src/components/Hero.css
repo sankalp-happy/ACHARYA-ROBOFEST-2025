@@ -381,7 +381,8 @@
     .hero-bottom {
         flex-direction: row;
         justify-content: space-between;
-        align-items: flex-end;
+        align-items: center;
+        /* changed from flex-end to center for better vertical alignment */
     }
 }
 

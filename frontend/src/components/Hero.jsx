@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { Suspense, lazy } from 'react';
 import { motion } from 'framer-motion';
-import { ArrowUpRight } from 'lucide-react';
+import { ArrowUpRight, Loader2 } from 'lucide-react';
 import './Hero.css';
+
+const Spline = lazy(() => import('@splinetool/react-spline'));
 
 const Hero = () => {
     const scrollToReg = () => {
