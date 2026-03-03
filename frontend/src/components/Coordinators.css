@@ -1,0 +1,49 @@
+.coordinators-section {
+    background: var(--bg-dark);
+}
+
+.coord-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 30px;
+}
+
+@media (min-width: 600px) {
+    .coord-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (min-width: 1024px) {
+    .coord-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+.coord-card {
+    padding: 40px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all var(--transition-fast);
+}
+
+.coord-role {
+    color: var(--text-muted);
+    font-family: var(--font-body);
+    font-size: 0.9rem;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    margin-bottom: 15px;
+}
+
+.coord-name {
+    color: var(--text-main);
+    font-size: 1.8rem;
+    font-weight: 500;
+    margin-bottom: 10px;
+}
+
+.coord-phone {
+    color: var(--text-main);
+    font-size: 1.1rem;
+    opacity: 0.7;
+}
