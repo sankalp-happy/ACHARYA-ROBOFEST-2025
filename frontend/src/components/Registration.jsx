@@ -203,7 +203,10 @@ const Registration = () => {
                             <div className="form-actions space-between">
                                 <button type="submit" className="premium-btn" disabled={isLoading}>
                                     {isLoading ? (
-                                        <>Submitting... <Loader2 size={18} className="spin" /></>
+                                        <>
+                                            <span className="pulse-text">Buffering...</span>
+                                            <Loader2 size={18} className="spin" />
+                                        </>
                                     ) : (
                                         <>Submit Registration <ArrowUpRight size={18} /></>
                                     )}

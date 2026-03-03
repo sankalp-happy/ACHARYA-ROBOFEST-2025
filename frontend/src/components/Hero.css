@@ -1,18 +1,73 @@
 .hero-section {
     min-height: 100vh;
     display: flex;
-    align-items: flex-end;
-    padding-bottom: 100px;
+    align-items: flex-start;
+    padding-top: 140px;
     position: relative;
     background: radial-gradient(circle at top right, #111 0%, transparent 60%);
+    overflow: hidden;
 }
 
 .hero-container {
     width: 100%;
 }
 
+.hero-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 40px;
+    align-items: center;
+    /* back to centered to match original relative position */
+    width: 100%;
+    margin-top: 0;
+    /* originally 80px, removing to reduce gap */
+}
+
+@media (min-width: 992px) {
+    .hero-grid {
+        grid-template-columns: 1.2fr 1fr;
+        gap: 60px;
+    }
+}
+
 .hero-content {
     max-width: 1000px;
+    z-index: 2;
+    position: relative;
+}
+
+.hero-spline-container {
+    width: 100%;
+    height: 400px;
+    position: relative;
+    z-index: 1;
+    display: none;
+    /* Hidden on mobile */
+}
+
+.hero-spline-container canvas {
+    transform: scale(1.4) translateY(-10%);
+    transform-origin: center center;
+}
+
+@media (min-width: 992px) {
+    .hero-spline-container {
+        height: 600px;
+        display: block;
+        /* Show on desktop */
+    }
+
+    .hero-spline-container canvas {
+        transform: scale(1.6) translateY(-8%);
+    }
+}
+
+.spline-loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    color: var(--text-main);
 }
 
 .hero-date-badge {
@@ -58,7 +113,8 @@
     .hero-bottom {
         flex-direction: row;
         justify-content: space-between;
-        align-items: flex-end;
+        align-items: center;
+        /* changed from flex-end to center for better vertical alignment */
     }
 }
 
@@ -81,8 +137,16 @@
     align-items: center;
     gap: 12px;
     border-radius: 40px;
+    white-space: nowrap;
+    /* prevent the text from wrapping onto a second line */
     /* Switch to pill shape for elegance */
     transition: transform var(--transition-smooth), opacity var(--transition-fast);
+}
+
+@media (min-width: 992px) {
+    .premium-btn {
+        display: none;
+    }
 }
 
 .premium-btn:hover {

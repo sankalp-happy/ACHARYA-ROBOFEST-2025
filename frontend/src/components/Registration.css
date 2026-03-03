@@ -197,3 +197,34 @@
     font-family: var(--font-body);
     font-size: 1rem;
 }
+
+/* Loading Animations */
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.spin {
+    animation: spin 1s linear infinite;
+}
+
+@keyframes pulse-text {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.6;
+    }
+}
+
+.pulse-text {
+    animation: pulse-text 1.5s ease-in-out infinite;
+}

@@ -46,7 +46,7 @@ const Navbar = () => {
                         <li key={link.name}>
                             <a
                                 href={link.href}
-                                className="nav-link"
+                                className={`nav-link ${link.name === 'Register' ? 'nav-register-btn' : ''}`}
                                 onClick={(e) => scrollToSection(e, link.href)}
                             >
                                 {link.name}
