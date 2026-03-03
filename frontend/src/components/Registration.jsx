@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { ArrowUpRight, ShieldCheck } from 'lucide-react';
+import { ArrowUpRight, ShieldCheck, Loader2 } from 'lucide-react';
 import './Registration.css';
+import { ID } from 'appwrite';
+import { storage, functions, APPWRITE_CONFIG } from '../appwrite';
 
 const Registration = () => {
     const [formData, setFormData] = useState({
@@ -12,6 +14,7 @@ const Registration = () => {
     const [proofData, setProofData] = useState({
         transactionId: '', paymentScreenshot: null
     });
+    const [isLoading, setIsLoading] = useState(false);
 
     const handleFormChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -30,7 +33,7 @@ const Registration = () => {
         window.open('https://www.acharyaerptech.in/ExternalPayment/285', '_blank');
     };
 
-    const submitRegistration = (e) => {
+    const submitRegistration = async (e) => {
         e.preventDefault();
 
         if (!proofData.transactionId || !proofData.paymentScreenshot) {
@@ -38,19 +41,61 @@ const Registration = () => {
             return;
         }
 
-        const eventName = document.getElementById('eventSelect').options[document.getElementById('eventSelect').selectedIndex].text;
+        setIsLoading(true);
 
-        // Simulate API submission
-        alert(`Registration completed successfully for ${eventName}!\nName: ${formData.fullName}\nTransaction ID: ${proofData.transactionId}`);
+        try {
+            const eventName = document.getElementById('eventSelect').options[document.getElementById('eventSelect').selectedIndex].text;
 
-        // Reset form
-        setFormData({
-            fullName: '', email: '', mobile: '',
-            college: '', department: '', year: '',
-            usn: '', eventSelect: ''
-        });
-        setProofData({ transactionId: '', paymentScreenshot: null });
-        document.getElementById('home')?.scrollIntoView({ behavior: 'smooth' });
+            // 1. Upload payment screenshot to Appwrite Storage
+            const file = await storage.createFile(
+                APPWRITE_CONFIG.bucketId,
+                ID.unique(),
+                proofData.paymentScreenshot
+            );
+
+            // 2. Prepare payload for the Cloud Function
+            const payload = {
+                fullName: formData.fullName,
+                email: formData.email,
+                mobile: formData.mobile,
+                college: formData.college,
+                department: formData.department,
+                year: formData.year,
+                usn: formData.usn,
+                eventSelect: formData.eventSelect,
+                transactionId: proofData.transactionId,
+                paymentScreenshotFileId: file.$id
+            };
+
+            // 3. Execute the Cloud Function
+            const execution = await functions.createExecution(
+                'submit-registration',
+                JSON.stringify(payload)
+            );
+
+            const result = JSON.parse(execution.responseBody);
+
+            if (result.success) {
+                alert(`Registration completed successfully for ${eventName}!\nName: ${formData.fullName}\nTransaction ID: ${proofData.transactionId}`);
+
+                // Reset form
+                setFormData({
+                    fullName: '', email: '', mobile: '',
+                    college: '', department: '', year: '',
+                    usn: '', eventSelect: ''
+                });
+                setProofData({ transactionId: '', paymentScreenshot: null });
+                document.getElementById('home')?.scrollIntoView({ behavior: 'smooth' });
+            } else {
+                alert(`Submission Failed: ${result.error || 'Unknown error'}`);
+            }
+
+        } catch (error) {
+            console.error("Submission Error:", error);
+            alert("An error occurred during submission. Please try again or contact support.");
+        } finally {
+            setIsLoading(false);
+        }
     };
 
     return (
@@ -152,8 +197,12 @@ const Registration = () => {
                             </div>
 
                             <div className="form-actions space-between">
-                                <button type="submit" className="premium-btn">
-                                    Submit Registration <ArrowUpRight size={18} />
+                                <button type="submit" className="premium-btn" disabled={isLoading}>
+                                    {isLoading ? (
+                                        <>Submitting... <Loader2 size={18} className="spin" /></>
+                                    ) : (
+                                        <>Submit Registration <ArrowUpRight size={18} /></>
+                                    )}
                                 </button>
                             </div>
                         </form>
