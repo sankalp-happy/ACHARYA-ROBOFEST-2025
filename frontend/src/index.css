@@ -24,12 +24,18 @@
   box-sizing: border-box;
 }
 
+html,
+body {
+  overflow-x: hidden;
+  width: 100%;
+  position: relative;
+}
+
 body {
   font-family: var(--font-body);
   background-color: var(--bg-dark);
   color: var(--text-main);
   line-height: 1.6;
-  overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -155,14 +161,23 @@ ul {
 
 /* Layout Classes */
 .container {
+  width: 100%;
   max-width: 1400px;
   margin: 0 auto;
-  padding: 0 4vw;
+  padding: 0 5vw;
 }
 
 section {
-  padding: 140px 0;
+  padding: 100px 0;
   position: relative;
+  width: 100%;
+  overflow: hidden;
+}
+
+@media (min-width: 768px) {
+  section {
+    padding: 140px 0;
+  }
 }
 
 .section-title {

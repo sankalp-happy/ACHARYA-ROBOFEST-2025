@@ -28,10 +28,18 @@
 }
 
 .hero-title {
-    font-size: clamp(4rem, 10vw, 8rem);
-    line-height: 0.9;
-    margin-bottom: 60px;
+    font-size: clamp(3rem, 12vw, 8rem);
+    line-height: 0.95;
+    margin-bottom: 40px;
     text-transform: uppercase;
+    word-break: break-word;
+    /* Prevents long words from breaking layout */
+}
+
+@media (min-width: 768px) {
+    .hero-title {
+        margin-bottom: 60px;
+    }
 }
 
 .text-outline {
