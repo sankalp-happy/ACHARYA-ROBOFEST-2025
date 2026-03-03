@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import { ArrowUpRight, ShieldCheck, Loader2 } from 'lucide-react';
 import './Registration.css';
 import { ID } from 'appwrite';
-import { storage, functions, APPWRITE_CONFIG } from '../appwrite';
+import { storage, functions, APPWRITE_CONFIG, ExecutionMethod } from '../appwrite';
 
 const Registration = () => {
     const [formData, setFormData] = useState({
@@ -69,8 +69,12 @@ const Registration = () => {
 
             // 3. Execute the Cloud Function
             const execution = await functions.createExecution(
-                'submit-registration',
-                JSON.stringify(payload)
+                APPWRITE_CONFIG.functionId,
+                JSON.stringify(payload),
+                false,
+                '/',
+                ExecutionMethod.POST,
+                {}
             );
 
             const result = JSON.parse(execution.responseBody);
