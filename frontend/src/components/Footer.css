@@ -85,3 +85,16 @@
     font-size: 0.85rem !important;
     opacity: 0.4;
 }
+
+.made-by {
+    text-align: center;
+    color: var(--text-muted);
+    font-family: var(--font-body);
+    font-size: 0.85rem;
+    opacity: 0.45;
+    margin-top: 48px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+    position: relative;
+    z-index: 1;
+}

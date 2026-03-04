@@ -16,6 +16,7 @@ const Footer = () => {
                     <p className="copyright">&copy; 2026 Acharya Robo Habba.</p>
                 </div>
             </div>
+            <p className="made-by">Made by TBO</p>
         </footer>
     );
 };
